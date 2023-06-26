@@ -1,0 +1,64 @@
+---
+title: "11th ISIOA training module: Dynamic Neo-Keynesian general equilibrium models in R "
+author: Frédéric Reynès,PhD & Anissa Saumtally, PhD
+format: html
+---
+
+
+# Summary of the Training Session:
+
+This training session presents a package in R that allows for simulating various types of dynamic general equilibrium models in R. This package provides an open and free alternative to software like GAMS and is currently used to simulate the open source model ThreeME (www.threeme.org).  
+We present the main functionalities of the package, in particular how to write the specification of a model (from scratch), how to simulate a model, how to create automatically the documentation of the equations of the model in Latex, how to visualize the results in nice (interactive) graphs and tables.
+After an introduction to general equilibrium models that compares the theoretical foundations of various CGE models, participants will run concrete applications by simulating the impact of standard shocks under various general equilibrium assumptions. 
+
+# Outline
+
+## First Session: 	Solving dynamic models and analysis results in R
+
+  -	Introduction
+  -	Main functionalities of the package: simulation, documentation, result analysis 
+  -	Examples of applications of the R package to advanced models: multi-sector ThreeME models, econometric models (Opale and Mesange)
+
+## Second Session 	Construction and simulation of simple models in R 
+  -	All steps within one Quarto markdown
+  -	Model construction, simulation, database results, documentation, result visualization
+
+## Third Session 	Simulating Neo-Keynesian general equilibrium models in R.
+  -	A simple CGE model with a Walras closure
+  -	Main equations of a simple Neo-Keynesian model
+  -	Practical exercises: simulating the impact of an exogenous increase in public spending
+
+## Fourth Session 	Practical exercises: Running basic shocks: 
+  -	Simulating the impact of standard shocks: e.g. change in tax rates, increase in public expenditures, technical progress improvement
+  -	Analyzing results in Quarto markdown
+
+# Practical information
+
+## Prerequisites: 
+
+  - Participants will bring with them their laptops.
+
+  - No prior knowledge in economic modeling is required. However prior knowledge in macro and microeconomics, quantitative analysis and software may prove helpful.
+
+  - Knowing some basics regarding R, R RStudio, Markdown and Git Hub would also be very helpful (see the short tutorials in Suggested references section).
+
+# Suggested References:
+
+  - Github - Short tutorial: <https://www.youtube.com/watch?v=iv8rSLsi1xo>
+  - R and RStudio - Introduction:  <https://www.youtube.com/watch?v=lL0s1coNtRk>
+  - Rmarkdown - Introduction and Basics: <https://www.youtube.com/watch?v=tKUufzpoHDE>
+  - Quarto - Guides: <https://quarto.org/docs/guide/>
+
+## Software installation:
+
+- Github:
+  + Create an Github account on <https://github.com/>
+  + Download and install the application Github Desktop : <https://desktop.github.com/>
+
+- R and RStudio: 
+  + Download and install R: <https://cran.r-project.org/bin/windows/base/>
+  + Download and install RStudio Desktop: <https://www.rstudio.com/products/rstudio/download/>
+
+- Rtools43 (if Windows OS):
+  + Download and install: <https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html>
+

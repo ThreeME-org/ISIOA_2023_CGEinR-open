@@ -1,0 +1,5 @@
+## Glossary of variables
+ 
+| | | |
+|:---:|:----------- |---------: |
+| $Y$ | Production (GDP) | [-@eq-01_1_eq_mdlY]

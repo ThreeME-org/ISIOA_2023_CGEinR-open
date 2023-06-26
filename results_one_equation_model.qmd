@@ -1,0 +1,146 @@
+---
+title: "Results exploitation"
+number-sections: true
+format: html
+crossref:
+  chapters: true
+params:
+  project_name: "introduction"
+  startyear: 2020
+  endyear: 2035
+  project_title: "A basic one equation model"
+  scenario_to_analyse: g
+  template_default: ofce
+---
+
+```{r}
+#| label: setup
+#| echo: false
+#| include: false
+
+source(file.path("src","functions.R"))
+
+project_name <- params$project_name
+project_title <- params$project_title
+startyear <- params$startyear
+endyear <- params$endyear
+scenario_to_analyse <- params$scenario_to_analyse
+template_default <- params$template_default
+
+
+data_full <- readRDS(file = file.path("data","output", paste0(project_name,".rds")))
+
+
+```
+
+# Macroeconomic summary
+
+## Graphs
+
+```{r}
+#| label: simpleplot macro
+#| echo: true
+
+simpleplot(data = data_full, series = "Y", label_series = "GDP", startyear = 2020, endyear = 2035, 
+           titleplot = "Gross Domestic Product (relative difference to the baseline scenario)")
+
+
+
+```
+
+
+```{r simpleplot diff GDP, echo=TRUE, fig.height=6, fig.width=14}
+simpleplot(data = data_full,  transformation = "diff", series = "Y", label_series = "GDP", startyear = 2020, endyear = 2035, 
+           titleplot = "Gross Domestic Product (absolute change)")
+
+```
+
+
+```{r}
+#| label: simpleplot macro2
+#| echo: true
+series <- c("Y","CH","G","I")
+series_label <- c("GDP","Households' consumption", "Government expenditure", "Investment")
+
+simpleplot(data = data_full, 
+           series = series, 
+           label_series = series_label, 
+           startyear = 2020, endyear = 2035, 
+           titleplot = "Gross Domestic Product (relative difference to the baseline scenario)")
+
+
+
+```
+
+### Two graphs together
+
+```{r Ex two graphs, echo=TRUE, fig.height=6, fig.width=14}
+
+A <- simpleplot(data = data_full,  transformation = "gr", series = "Y", startyear = 2020, endyear = 2035, 
+                titleplot = "Gross Domestic Product (percent change)", unit = "percent", decimal = 0.1)
+
+B <- simpleplot(data_full,c("CH", "I", "G"), startyear = 2020, endyear= 2030,  transformation = "level", titleplot = "GDP components in level")
+
+ggarrange(A,B,
+          labels = c("(a)", "(b)"),
+          hjust = -0.5, vjust = 1.5,
+          ncol = 2, nrow = 1,
+          widths = 2,  heights = 1)
+```
+
+### Contribution plot
+
+```{r}
+#| label: contrib
+#| echo: false
+
+contrib_comp <- c( "CH", "I", "G")
+contrib_comp_label <- c("Households consumption", "Investment", "Public spending")
+
+data_plot <-  contrib(data_full,"Y", contrib_comp, scenar = c("baseline",scenario_to_analyse))
+
+contrib.plot(data_plot, series = contrib_comp,label_series = contrib_comp_label,
+             startyear = 2020, titleplot = "Contributions to change in GDP", line_tot = TRUE)
+```
+
+
+
+## Table results
+
+### A basic table example:
+
+```{r}
+#| label: table_data_endyear
+#| tbl-cap: variables at end year
+#| results: asis
+#| 
+variables_selection = c("Y","CH","I", "G")
+selection <-  data_full %>% filter(variable %in% variables_selection, year %in% c(endyear)) %>% select(-sector, -commodity, -year) %>% arrange(variable)
+flextable(selection)
+
+```
+
+
+```{r}
+#| label: table_data_startyear
+#| tbl-cap: variables at start year
+#| results: asis
+#| 
+variables_selection = c("Y","CH","I", "G")
+selection <-  data_full %>% filter(variable %in% variables_selection, year %in% c(startyear)) %>% select(-sector, -commodity, -year) %>% arrange(variable)
+flextable(selection)
+
+```
+
+
+# Appendix A : Equations guide
+ 
+ 
+{{< include results_side_files/equations.qmd >}}
+ 
+ 
+ 
+{{< include results_side_files/exogenous.qmd >}}
+ 
+{{< include results_side_files/glossary.qmd >}}
+

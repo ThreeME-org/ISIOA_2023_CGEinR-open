@@ -1,0 +1,8 @@
+## Basic model
+
+
+
+**Production (GDP)** 
+$$Y = CH + I + G$${#eq-01_1_eq_mdlY}
+
+\newpage

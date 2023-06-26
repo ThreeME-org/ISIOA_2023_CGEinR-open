@@ -1,0 +1,284 @@
+---
+title: "Results on a small CGE model"
+number-sections: true
+format: html
+crossref:
+  chapters: true
+params:
+  project_name: "walras"
+  startyear: 2020
+  endyear: 2035
+  project_title: "Simulations on a small Walrasian CGE model "
+  scenario_to_analyse: g
+  template_default: ofce
+---
+
+```{r}
+#| label: setup
+#| echo: false
+#| include: false
+
+source(file.path("src","functions.R"))
+
+project_name <- params$project_name
+project_title <- params$project_title
+startyear <- params$startyear
+endyear <- params$endyear
+scenario_to_analyse <- params$scenario_to_analyse
+template_default <- params$template_default
+
+
+data_full <- readRDS(file = file.path("data","output", paste0(project_name,".rds")))
+
+```
+
+
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE,
+	results = "hide"
+)
+```
+
+
+# Macroeconomic results
+
+
+## Contributions in GDP 
+
+
+
+```{r Graph GDP and contrib,  fig.height = 6, fig.width = 14}
+contrib_comp <- c( "CH", "I", "G")
+contrib_comp_label <- c("Households consumption", "Investment", "Public spending")
+
+data_plot <-  contrib(data_full,"Y", contrib_comp, scenar = c("baseline",scenario_name))
+
+A <- contrib.plot(data_plot, series = contrib_comp,label_series = contrib_comp_label,
+             startyear = startyear, endyear = endyear, titleplot = " Contributions to change in GDP (in relative difference from baseline)", line_tot = TRUE)  
+
+B <- simpleplot(data_full,c("CH", "I", "G"), contrib_comp_label, startyear, endyear, titleplot = " Components of the GDP (in relative difference from baseline)") 
+
+macro <- ggarrange(A,B,
+labels = c("(a)", "(b)"),
+hjust = -0.5, vjust = 1.5,
+ncol = 2, nrow = 1,
+widths = 2,  heights = 1)
+
+
+
+## Save image on disk for further use (ready to be activated)
+#ggsave("plot.png",width = 40,  height = 28, units = c("cm"))
+
+
+
+## See the graph in Mark-down
+macro
+
+
+```
+
+
+
+## GDP and its components 
+
+```{r Graph contrib, fig.height=6, fig.width=14}
+
+variable_macro <- c( "Y", "CH", "I", "G")
+label_macro <- c("GDP", "Households consumption", "Investment", "Public spending")
+
+A <- simpleplot(data_full,variable_macro, label_macro, startyear, endyear,  transformation = "reldiff", titleplot = " GDP and its components (in relative difference from baseline)",
+           unit = "percent", decimal = 0.1 )
+
+B <- simpleplot(data_full,variable_macro, label_macro, startyear, endyear,  transformation = "level", titleplot = " GDP and its components (Level) ",
+           unit = 1, decimal = 0.1 )
+
+macro <- ggarrange(A,B,
+labels = c("(a)", "(b)"),
+hjust = -0.5, vjust = 1.5,
+ncol = 2, nrow = 1,
+widths = 2,  heights = 1)
+
+## Save image on disk for further use (ready to be activated)
+# ggsave("macro.svg", device = svg, width = 32,  height = 16, units = c("cm"))
+
+
+## See the graph in Mark-down
+macro
+
+```
+
+
+## Labor, capital and production 
+
+```{r Graph Inputs, fig.height=6, fig.width=14}
+
+variable_macro <- c( "Y","K","L")
+label_macro <- c("GDP",  "Capital", "Labor")
+
+A <- simpleplot(data_full,variable_macro, label_macro, startyear, endyear,  transformation = "reldiff", titleplot = " Input factors and GDP (in relative difference from baseline)",
+           unit = "percent", decimal = 0.1 )
+
+B <- simpleplot(data_full,variable_macro, label_macro, startyear, endyear,  transformation = "level", titleplot = " Input factors and GDP (Level) ",
+           unit = 1, decimal = 0.1 )
+
+macro <- ggarrange(A,B,
+labels = c("(a)", "(b)"),
+hjust = -0.5, vjust = 1.5,
+ncol = 2, nrow = 1,
+widths = 2,  heights = 1)
+
+## Save image on disk for further use (ready to be activated)
+# ggsave("macro.svg", device = svg, width = 32,  height = 16, units = c("cm"))
+
+
+## See the graph in Mark-down
+macro
+
+```
+
+
+## Capital and investment 
+
+```{r Graph Capital Investment, fig.height=6, fig.width=14}
+
+A <- simpleplot(data_full,c("K", "I"), c("Capital","Investment"), startyear, endyear, "reldiff", titleplot = " Capital and investment (in relative difference from baseline)")
+
+B <- simpleplot(data_full,c("K", "I"), c("Capital","Investment"), startyear, endyear, "level", titleplot = " Capital and investment (Level) ", unit = 1, decimal = 0.1)
+
+ggarrange(A,B,
+labels = c("(a)", "(b)"),
+hjust = -0.5, vjust = 1.5,
+ncol = 2, nrow = 1,
+widths = 2,  heights = 1)
+
+```
+
+
+## Interest rate
+
+```{r Graph Interest rate, fig.height=6, fig.width=14}
+
+A <- simpleplot(data_full,c("R"), c("Interest rate"), startyear, endyear, "diff", titleplot = " Interest rate (in difference from baseline)")
+
+B <- simpleplot(data_full,c("R"), c("Interest rate"), startyear, endyear, "level", titleplot = " Interest rate (Level) ")
+
+ggarrange(A,B,
+labels = c("(a)", "(b)"),
+hjust = -0.5, vjust = 1.5,
+ncol = 2, nrow = 1,
+widths = 2,  heights = 1)
+
+```
+
+
+## Prices and wages 
+
+```{r Graph Prices, fig.height=6, fig.width=14}
+
+A <- simpleplot(data_full,c("P", "W"), c("Price", "Wages"), startyear, endyear, "reldiff", titleplot = " Prices and wages (in relative difference from baseline)")
+
+B <- simpleplot(data_full,c("P", "W"), c("Price", "Wages"), startyear, endyear,  transformation = "level",   titleplot = " Prices and wages (Level)", unit = 1 )
+
+#B <- simpleplot(data_full,c("R"), c("Interest rate"), startyear, endyear, "level", titleplot = "Interest rate (level)")
+
+ggarrange(A,B,
+labels = c("(a)", "(b)"),
+hjust = -0.5, vjust = 1.5,
+ncol = 2, nrow = 1,
+widths = 2,  heights = 1)
+
+```
+
+## Labor and wages 
+
+```{r Graph labor, fig.height=6, fig.width=14}
+
+A <- simpleplot(data_full, c("L", "W"), c("Labor","Wages"), startyear, endyear, "reldiff", titleplot = " Labor and wage (in relative difference from baseline)")
+
+B <- simpleplot(data_full, c("L", "W"), c("Labor","Wages"), startyear, endyear, "gr", titleplot = " Labor and wage (Growth rate)", unit = "percent", decimal = 0.1 )  
+
+ggarrange(A,B,
+labels = c("(a)", "(b)"),
+hjust = -0.5, vjust = 1.5,
+ncol = 2, nrow = 1,
+widths = 2,  heights = 1)
+
+```
+
+
+## Capital and Interest rate 
+
+```{r Graph capital interest rate, fig.height=6, fig.width=14}
+
+A <- simpleplot(data_full, c("K", "R"), c("Capital","Interest rate"), startyear, endyear, "reldiff", titleplot = " Capital and interest rate (in relative difference from baseline)")
+
+B <- simpleplot(data_full, c("K", "R"), c("Capital","Interest rate"), startyear, endyear, "gr", titleplot = " Capital and interest rate (Growth rate)", unit = "percent", decimal = 0.1 )  
+
+ggarrange(A,B,
+labels = c("(a)", "(b)"),
+hjust = -0.5, vjust = 1.5,
+ncol = 2, nrow = 1,
+widths = 2,  heights = 1)
+
+```
+
+
+## Ratio between capital and labor
+
+```{r creation new var, fig.height=6, fig.width=14}
+
+variables_selection = c("K","L","P","DELTA","R","W")
+new_indicators <- data_full %>% wide_data(variables = variables_selection,out_format = "list") %>%
+  map(~.x %>% mutate(RATIO_K_L= K/L,
+             CAPITAL_COST = P*(DELTA+R),
+             LABOR_COST = W,
+             RATIO_Cost = CAPITAL_COST/LABOR_COST)) %>% long_data(sector_names_table=NULL,commodity_names_table=NULL) %>% select(-sector,-commodity)
+
+A <- simpleplot(new_indicators, c("RATIO_K_L"), c("K/L"), startyear, endyear, "reldiff", titleplot = " Capital to labor ratio (in relative difference from baseline)")
+
+B <- simpleplot(new_indicators, c("RATIO_K_L"), c("K/L"), startyear, endyear, "level", titleplot = " Capital to labor ratio (Level)", unit = 1, decimal = 0.01) 
+
+macro <- ggarrange(A,B,
+labels = c("(a)", "(b)"),
+hjust = -0.5, vjust = 1.5,
+ncol = 2, nrow = 1,
+widths = 2,  heights = 1)
+
+macro
+```
+
+## Ratio between the cost of inputs
+
+```{r Graph Ratio cost of inputs, fig.height=6, fig.width=14}
+
+A <- simpleplot(new_indicators,c("RATIO_Cost"), c("Capital cost/Labor cost") , startyear, endyear, "reldiff", titleplot = " Ratio between the capital and labor costs 
+(in relative difference from baseline)")
+
+B <- simpleplot(new_indicators, c("CAPITAL_COST", "LABOR_COST"), c("Capital cost","Labor cost"), startyear, endyear, "level", titleplot = " Cost of inputs (Level) ", unit = 1, decimal = 0.01) 
+
+macro <- ggarrange(A,B,
+labels = c("(a)", "(b)"),
+hjust = -0.5, vjust = 1.5,
+ncol = 2, nrow = 1,
+widths = 2,  heights = 1)
+
+macro
+```
+
+
+# Appendix A : Equations guide
+ 
+ 
+{{< include results_side_files/equations.qmd >}}
+ 
+ 
+ 
+{{< include results_side_files/exogenous.qmd >}}
+ 
+{{< include results_side_files/glossary.qmd >}}
+
