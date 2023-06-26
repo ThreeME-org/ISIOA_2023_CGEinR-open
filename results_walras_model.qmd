@@ -17,6 +17,13 @@ params:
 #| label: setup
 #| echo: false
 #| include: false
+#| 
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE,
+	results = "hide"
+)
 
 source(file.path("src","functions.R"))
 
@@ -26,23 +33,12 @@ startyear <- params$startyear
 endyear <- params$endyear
 scenario_to_analyse <- params$scenario_to_analyse
 template_default <- params$template_default
-
+scenario_name<- scenario_to_analyse
 
 data_full <- readRDS(file = file.path("data","output", paste0(project_name,".rds")))
 
 ```
 
-
-
-```{r setup, include=FALSE}
-
-knitr::opts_chunk$set(
-	echo = FALSE,
-	message = FALSE,
-	warning = FALSE,
-	results = "hide"
-)
-```
 
 
 # Macroeconomic results
