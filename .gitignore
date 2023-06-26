@@ -2,3 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
+%LOCALAPPDATA%/
+results_one_equation_model_files/
+
