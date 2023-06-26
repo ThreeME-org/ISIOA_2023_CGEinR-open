@@ -13,8 +13,8 @@ iso3 <- " "                   %>% tolower()
 scenario <- c("g")         %>% tolower()
 classification <- "c0_s0"       %>% tolower()
 model_folder <- "training"
-project_name <- "neokeynesian"
-project_title <- "Simulating a Neo-Keynesian mode"
+project_name <- "introduction"
+project_title <- "First Steps"
 
 
 if (automated_shocks){
